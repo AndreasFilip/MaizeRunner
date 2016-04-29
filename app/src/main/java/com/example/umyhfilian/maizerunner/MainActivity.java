@@ -1,6 +1,7 @@
 package com.example.umyhfilian.maizerunner;
 
 import android.app.Activity;
+import android.content.pm.ActivityInfo;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
@@ -20,10 +21,11 @@ public class MainActivity extends Activity implements SensorEventListener
 
     /** Called when the activity is first created. */
     @Override
-    public void onCreate(Bundle savedInstanceState)
-    {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+
 
         //get the TextView from the layout file
         tv = (TextView) findViewById(R.id.tv);
@@ -35,8 +37,7 @@ public class MainActivity extends Activity implements SensorEventListener
 
     //when this Activity starts
     @Override
-    protected void onResume()
-    {
+    protected void onResume() {
         super.onResume();
         /*register the sensor listener to listen to the gyroscope sensor, use the
         callbacks defined in this class, and gather the sensor information as quick
@@ -46,22 +47,19 @@ public class MainActivity extends Activity implements SensorEventListener
 
     //When this Activity isn't visible anymore
     @Override
-    protected void onStop()
-    {
+    protected void onStop() {
         //unregister the sensor listener
         sManager.unregisterListener(this);
         super.onStop();
     }
 
     @Override
-    public void onAccuracyChanged(Sensor arg0, int arg1)
-    {
+    public void onAccuracyChanged(Sensor arg0, int arg1) {
         //Do nothing.
     }
 
     @Override
-    public void onSensorChanged(SensorEvent event)
-    {
+    public void onSensorChanged(SensorEvent event) {
         //if sensor is unreliable, return void
         if (event.accuracy == SensorManager.SENSOR_STATUS_UNRELIABLE)
         {
@@ -73,7 +71,7 @@ public class MainActivity extends Activity implements SensorEventListener
                 "Orientation Y (Pitch) :"+ Float.toString(event.values[1]) +"\n"+
                 "Orientation Z (Yaw) :"+ Float.toString(event.values[0]));
 
-        imageView.setX(300 +event.values[2]*4);
-        imageView.setY(300 + event.values[1]*4);
+        imageView.setX(300 - event.values[1]*4);
+        imageView.setY(300 + event.values[2]*4);
     }
 }
