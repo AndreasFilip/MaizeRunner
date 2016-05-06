@@ -1,7 +1,7 @@
 package com.example.umyhfilian.maizerunner;
 
 
-public class Player {
+public class PlayerCircle {
 
 
 

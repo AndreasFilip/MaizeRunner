@@ -22,4 +22,5 @@
         android:background="@drawable/ic_maize_runner_pc_huge"
         android:layout_centerVertical="true"
         android:layout_centerHorizontal="true" />
+
 </RelativeLayout>
