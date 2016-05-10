@@ -8,10 +8,21 @@ import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutCompat;
+import android.util.Log;
+import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
 
 public class MainActivity extends Activity implements SensorEventListener
 {
@@ -20,6 +31,9 @@ public class MainActivity extends Activity implements SensorEventListener
     private TextView tv;
     //the Sensor Manager
     private SensorManager sManager;
+    private Button startButton;
+    LinearLayoutCompat linearLayout;
+    Animation animation1;
 
     /** Called when the activity is first created. */
     @Override
@@ -33,9 +47,21 @@ public class MainActivity extends Activity implements SensorEventListener
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.start_screen);
+        ButterKnife.bind(this);
+
         //get the TextView from the layout file
         tv = (TextView) findViewById(R.id.tv);
+        startButton = (Button) findViewById(R.id.startButton);
+
+        startButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Log.i("TAG","YOU PRESSED BUTTON");
+                fade();
+            }
+        });
 
         imageView = (ImageView)findViewById(R.id.imageView);
         //get a hook to the sensor service
@@ -73,12 +99,33 @@ public class MainActivity extends Activity implements SensorEventListener
             return;
         }
 
-        //else it will output the Roll, Pitch and Yawn values
+        /*//else it will output the Roll, Pitch and Yawn values
         tv.setText("Orientation X (Roll) :"+ Float.toString(event.values[2]) +"\n"+
                 "Orientation Y (Pitch) :"+ Float.toString(event.values[1]) +"\n"+
                 "Orientation Z (Yaw) :"+ Float.toString(event.values[0]));
 
         imageView.setX(300 - event.values[1]*4);
-        imageView.setY(300 + event.values[2]*4);
+        imageView.setY(300 + event.values[2]*4);*/
+    }
+    public void fade(){
+        linearLayout = (LinearLayoutCompat) findViewById(R.id.linearLayoutStartScreen);
+        animation1 = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fade);
+        linearLayout.startAnimation(animation1);
+        animation1.setAnimationListener(new Animation.AnimationListener() {
+            @Override
+            public void onAnimationEnd(Animation arg0) {
+                setContentView(R.layout.point_screen);
+            }
+
+            @Override
+            public void onAnimationRepeat(Animation arg0) {
+                //Functionality here
+            }
+
+            @Override
+            public void onAnimationStart(Animation arg0) {
+                //Functionality here
+            }
+        });
     }
 }
