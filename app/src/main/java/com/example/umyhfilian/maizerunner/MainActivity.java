@@ -47,12 +47,14 @@ public class MainActivity extends Activity implements SensorEventListener
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
-        setContentView(R.layout.start_screen);
+        setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
 
         //get the TextView from the layout file
         tv = (TextView) findViewById(R.id.tv);
-        startButton = (Button) findViewById(R.id.startButton);
+
+        //Button for transition
+        /*  startButton = (Button) findViewById(R.id.startButton);
 
         startButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -62,7 +64,7 @@ public class MainActivity extends Activity implements SensorEventListener
                 fade();
             }
         });
-
+*/
         imageView = (ImageView)findViewById(R.id.imageView);
         //get a hook to the sensor service
         sManager = (SensorManager) getSystemService(SENSOR_SERVICE);
@@ -99,13 +101,13 @@ public class MainActivity extends Activity implements SensorEventListener
             return;
         }
 
-        /*//else it will output the Roll, Pitch and Yawn values
+        //else it will output the Roll, Pitch and Yawn values
         tv.setText("Orientation X (Roll) :"+ Float.toString(event.values[2]) +"\n"+
                 "Orientation Y (Pitch) :"+ Float.toString(event.values[1]) +"\n"+
                 "Orientation Z (Yaw) :"+ Float.toString(event.values[0]));
 
         imageView.setX(300 - event.values[1]*4);
-        imageView.setY(300 + event.values[2]*4);*/
+        imageView.setY(300 + event.values[2]*4);
     }
     public void fade(){
         linearLayout = (LinearLayoutCompat) findViewById(R.id.linearLayoutStartScreen);
