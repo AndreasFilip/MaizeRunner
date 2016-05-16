@@ -16,19 +16,24 @@ import android.widget.TextView;
 public class MainActivity extends Activity implements SensorEventListener
 {
     private ImageView imageView;
-    //a TextView
     private TextView tv;
-    //the Sensor Manager
     private SensorManager sManager;
+    public static float density;
+    Renderer renderer = new Renderer();
 
-    /** Called when the activity is first created. */
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setupActivity();
+
+
+    }
+
+    public void setupActivity(){
 
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE); //Låser telefonen i landskap
 
-        // remove title
+        // remove titlebar
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
@@ -40,9 +45,17 @@ public class MainActivity extends Activity implements SensorEventListener
         imageView = (ImageView)findViewById(R.id.imageView);
         //get a hook to the sensor service
         sManager = (SensorManager) getSystemService(SENSOR_SERVICE);
+
+        //renderer.Toaster(this);
+        density =  getResources().getDisplayMetrics().density;
+
+        renderer.defineSize();
+        renderer.draw(this);
+        setContentView(renderer.scene);
+
+
     }
 
-    //when this Activity starts
     @Override
     protected void onResume() {
         super.onResume();
@@ -52,7 +65,6 @@ public class MainActivity extends Activity implements SensorEventListener
         sManager.registerListener(this, sManager.getDefaultSensor(Sensor.TYPE_ORIENTATION),SensorManager.SENSOR_DELAY_FASTEST);
     }
 
-    //When this Activity isn't visible anymore
     @Override
     protected void onStop() {
         //unregister the sensor listener
