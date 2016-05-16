@@ -53,14 +53,14 @@ public class MainActivity extends Activity implements SensorEventListener
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.start_screen);
         ButterKnife.bind(this);
 
         //get the TextView from the layout file
         tv = (TextView) findViewById(R.id.tv);
 
         //Button for transition
-        /*  startButton = (Button) findViewById(R.id.startButton);
+          startButton = (Button) findViewById(R.id.startButton);
 
         startButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -70,7 +70,7 @@ public class MainActivity extends Activity implements SensorEventListener
                 fade();
             }
         });
-*/
+
         imageView = (ImageView)findViewById(R.id.imageView);
         //get a hook to the sensor service
         sManager = (SensorManager) getSystemService(SENSOR_SERVICE);
@@ -80,7 +80,7 @@ public class MainActivity extends Activity implements SensorEventListener
 
         renderer.defineSize();
         renderer.draw(this);
-        setContentView(renderer.scene);
+
 
 
     }
@@ -129,7 +129,8 @@ public class MainActivity extends Activity implements SensorEventListener
         animation1.setAnimationListener(new Animation.AnimationListener() {
             @Override
             public void onAnimationEnd(Animation arg0) {
-                setContentView(R.layout.point_screen);
+                setContentView(R.layout.activity_main);
+                setContentView(renderer.scene);
             }
 
             @Override
