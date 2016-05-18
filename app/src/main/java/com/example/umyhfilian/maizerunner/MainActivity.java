@@ -3,6 +3,7 @@ package com.example.umyhfilian.maizerunner;
 import android.app.Activity;
 import android.content.Context;
 import android.content.pm.ActivityInfo;
+import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.hardware.Sensor;
@@ -50,7 +51,7 @@ public class MainActivity extends Activity implements SensorEventListener
     Calendar calendar;
 
     public DisplayMetrics metrics;
-    Renderer renderer = new Renderer();
+    Renderer renderer;
     Context mainActivity;
 
     public Context getContext(){
@@ -81,7 +82,7 @@ public class MainActivity extends Activity implements SensorEventListener
 
         setContentView(R.layout.start_screen);
         ButterKnife.bind(this);
-
+        renderer = new Renderer();
         //get the TextView from the layout file
         tv = (TextView) findViewById(R.id.tv);
 
@@ -107,8 +108,27 @@ public class MainActivity extends Activity implements SensorEventListener
          */
         metrics = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(metrics);
-
+        renderer.defineSize();
+        PlayerCircleBitmap = BitmapFactory.decodeResource(getResources(),R.drawable.ic_maize_runner_pc_huge);
+       /* float screenXX = ((float) renderer.screenX);
+        float screenYY = ((float) renderer.screenY);
+        convertPixelsToDp(screenXX,this);
+        convertPixelsToDp(screenYY,this);
+        int screenXXX = ((int) screenXX);
+        int screenYYY = ((int) screenYY);*/
+        currentPlayer = new PlayerCircle(PlayerCircleBitmap,renderer.screenX-(renderer.screenX/5),0,85,85,this);
+        renderer.draw(this);
     }
+
+/*
+
+    public static float convertPixelsToDp(float px, Context context){
+        Resources resources = context.getResources();
+        DisplayMetrics metrics = resources.getDisplayMetrics();
+        float dp = px / ((float)metrics.densityDpi / DisplayMetrics.DENSITY_DEFAULT);
+        return dp;
+    }
+*/
 
     private void setupTimer(){
         txtV = (TextView) findViewById(R.id.tv);
@@ -150,11 +170,7 @@ public class MainActivity extends Activity implements SensorEventListener
         if (timer != null) {
             timer.cancel();
         }
-        PlayerCircleBitmap = BitmapFactory.decodeResource(getResources(),R.drawable.ic_maize_runner_pc_huge);
-        currentPlayer = new PlayerCircle(PlayerCircleBitmap,500,500,85,85,this);
 
-        renderer.defineSize();
-        renderer.draw(this);
     }
 
     @Override
@@ -204,6 +220,7 @@ public class MainActivity extends Activity implements SensorEventListener
         animation1 = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fade);
         animation2 = AnimationUtils.loadAnimation(getApplicationContext(),R.anim.fadein);
         linearLayout.startAnimation(animation1);
+
         animation1.setAnimationListener(new Animation.AnimationListener() {
             @Override
             public void onAnimationEnd(Animation arg0) {

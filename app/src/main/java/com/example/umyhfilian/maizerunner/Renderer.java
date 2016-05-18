@@ -23,8 +23,8 @@ public class Renderer  {
     public int screenX;
     public int screenY;
 
-    MainActivity mainActivity;
-    Context context;
+  /*  MainActivity mainActivity;
+    Context context;*/
 
     MainActivity act;
     PlayerCircle playerCircle;
