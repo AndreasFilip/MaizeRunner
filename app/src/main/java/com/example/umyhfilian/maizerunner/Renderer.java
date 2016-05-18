@@ -8,6 +8,7 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 /**
@@ -16,10 +17,12 @@ import android.widget.Toast;
 public class Renderer  {
 
     //public String scream;
+    TextView textView;
     public ImageView scene;
     public int screenX;
     public int screenY;
-
+    MainActivity mainActivity;
+    Context context;
 
    /* public void Toaster (Context context){
 
@@ -29,10 +32,6 @@ public class Renderer  {
     }*/
 
     public void defineSize (){
-
-
-
-
         screenX = getScreenWidth();
         screenY = getScreenHeight();
 
