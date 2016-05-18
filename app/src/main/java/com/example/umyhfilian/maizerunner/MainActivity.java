@@ -1,9 +1,7 @@
 package com.example.umyhfilian.maizerunner;
-
 import android.app.Activity;
 import android.content.Context;
 import android.content.pm.ActivityInfo;
-import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.hardware.Sensor;
@@ -66,7 +64,6 @@ public class MainActivity extends Activity implements SensorEventListener
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setupActivity();
-        setupTimer();
         mainActivity = getContext();
     }
 
@@ -85,7 +82,6 @@ public class MainActivity extends Activity implements SensorEventListener
         renderer = new Renderer();
         //get the TextView from the layout file
         tv = (TextView) findViewById(R.id.tv);
-
         //Button for transition
         startButton = (Button) findViewById(R.id.startButton);
 
@@ -131,14 +127,14 @@ public class MainActivity extends Activity implements SensorEventListener
 */
 
     private void setupTimer(){
-        txtV = (TextView) findViewById(R.id.tv);
 
+        txtV = (TextView) findViewById(R.id.showTime);
+        calendar = Calendar.getInstance();
+        startDate = calendar.getTime();
+        state = true;
+        tiodelarAvSekund = 0;
+        setTimer();
 
-                    calendar = Calendar.getInstance();
-                    startDate = calendar.getTime();
-                    state = true;
-                    tiodelarAvSekund = 0;
-                    setTimer();
 
             }
 
@@ -167,9 +163,6 @@ public class MainActivity extends Activity implements SensorEventListener
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        if (timer != null) {
-            timer.cancel();
-        }
 
     }
 
@@ -225,7 +218,7 @@ public class MainActivity extends Activity implements SensorEventListener
             @Override
             public void onAnimationEnd(Animation arg0) {
                 setContentView(R.layout.activity_main);
-                setContentView(renderer.scene);
+               // setContentView(renderer.scene);
                 renderer.scene.startAnimation(animation2);
                 animation2.setAnimationListener(new Animation.AnimationListener() {
                     @Override
@@ -235,7 +228,7 @@ public class MainActivity extends Activity implements SensorEventListener
 
                     @Override
                     public void onAnimationEnd(Animation animation) {
-
+                    setupTimer();
                     }
 
                     @Override
