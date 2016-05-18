@@ -7,7 +7,9 @@ import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 /**
@@ -19,27 +21,25 @@ public class Renderer  {
     public ImageView scene;
     public int screenX;
     public int screenY;
+    MainActivity act;
+    PlayerCircle playerCircle;
 
 
-   /* public void Toaster (Context context){
 
-        scream = "Aaaaaagh";
-        Toast.makeText(context, scream, Toast.LENGTH_LONG).show();
 
-    }*/
+
+
 
     public void defineSize (){
-
-
-
 
         screenX = getScreenWidth();
         screenY = getScreenHeight();
 
-
     }
 
     public void draw(Context context){
+        act = ((MainActivity)context);
+        playerCircle = act.currentPlayer;
 
         // Declare an object of type Bitmap
         Bitmap blankBitmap;
@@ -53,6 +53,10 @@ public class Renderer  {
 
         // Initialize our previously declared member object of type ImageView
         scene = new ImageView(context);
+
+        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+        scene.setLayoutParams(params);
+
         // Put our blank bitmap on ourView
         scene.setImageBitmap(blankBitmap);
 
@@ -67,27 +71,8 @@ public class Renderer  {
         // Make the canvas white
         canvas.drawColor(Color.argb(255, 255, 255, 255));
 
-        // Make the brush blue
-        paint.setColor(Color.argb(255,  26, 128, 182));
-        // We can change this around as well
 
-        // Draw a line
-        canvas.drawLine(50,50,250,250,paint);
-
-        // Draw some text
-        canvas.drawText("Game Code School", 50, 50, paint);
-
-        // Draw a pixel
-        canvas.drawPoint(40,50,paint);
-
-        // Draw a circle
-        canvas.drawCircle(350,250,100,paint);
-
-        // Change the brush color
-        paint.setColor(Color.argb(255,  249, 129, 0));
-
-        // Draw a rectangle
-        canvas.drawRect(50,450,500,550,paint);
+        canvas.drawBitmap(playerCircle.playerCircle, null, playerCircle.rect, paint);
 
         // Back to onCreate method to set our canvas as the view
 

@@ -2,14 +2,17 @@ package com.example.umyhfilian.maizerunner;
 
 import android.app.Activity;
 import android.content.pm.ActivityInfo;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutCompat;
+import android.util.DisplayMetrics;
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -17,11 +20,8 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class MainActivity extends Activity implements SensorEventListener
@@ -34,8 +34,11 @@ public class MainActivity extends Activity implements SensorEventListener
     LinearLayoutCompat linearLayout;
     Animation animation1;
 
-    public static float density;
+    public DisplayMetrics metrics;
     Renderer renderer = new Renderer();
+
+    public Bitmap PlayerCircleBitmap;
+    PlayerCircle currentPlayer;
 
 
     @Override
@@ -60,7 +63,7 @@ public class MainActivity extends Activity implements SensorEventListener
         tv = (TextView) findViewById(R.id.tv);
 
         //Button for transition
-          startButton = (Button) findViewById(R.id.startButton);
+        startButton = (Button) findViewById(R.id.startButton);
 
         startButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -75,14 +78,20 @@ public class MainActivity extends Activity implements SensorEventListener
         //get a hook to the sensor service
         sManager = (SensorManager) getSystemService(SENSOR_SERVICE);
 
-        //renderer.Toaster(this);
-        density =  getResources().getDisplayMetrics().density;
+
+        /**
+         * Init the metrics like this so access density of screen
+         */
+        metrics = new DisplayMetrics();
+        getWindowManager().getDefaultDisplay().getMetrics(metrics);
+
+
+
+        PlayerCircleBitmap = BitmapFactory.decodeResource(getResources(),R.drawable.ic_maize_runner_pc_huge);
+        currentPlayer = new PlayerCircle(PlayerCircleBitmap,500,500,85,85,this);
 
         renderer.defineSize();
         renderer.draw(this);
-
-
-
     }
 
     @Override
@@ -122,6 +131,11 @@ public class MainActivity extends Activity implements SensorEventListener
         imageView.setX(300 - event.values[1]*4);
         imageView.setY(300 + event.values[2]*4);
     }
+
+    public float convertDpToPix(float dp){
+        return TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP,dp,metrics);
+    }
+
     public void fade(){
         linearLayout = (LinearLayoutCompat) findViewById(R.id.linearLayoutStartScreen);
         animation1 = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fade);
