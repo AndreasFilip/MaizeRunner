@@ -10,6 +10,7 @@ import android.graphics.Paint;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 /**
@@ -18,20 +19,19 @@ import android.widget.Toast;
 public class Renderer  {
 
     //public String scream;
+    TextView textView;
     public ImageView scene;
     public int screenX;
     public int screenY;
     MainActivity act;
     PlayerCircle playerCircle;
 
-
-
-
+    MainActivity mainActivity;
+    Context context;
 
 
 
     public void defineSize (){
-
         screenX = getScreenWidth();
         screenY = getScreenHeight();
 
