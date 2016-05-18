@@ -110,29 +110,25 @@ public class MainActivity extends Activity implements SensorEventListener
         getWindowManager().getDefaultDisplay().getMetrics(metrics);
         renderer.defineSize();
         PlayerCircleBitmap = BitmapFactory.decodeResource(getResources(),R.drawable.ic_maize_runner_pc_huge);
-        float screenXX = ((float) renderer.screenX);
+       /* float screenXX = ((float) renderer.screenX);
         float screenYY = ((float) renderer.screenY);
         convertPixelsToDp(screenXX,this);
         convertPixelsToDp(screenYY,this);
         int screenXXX = ((int) screenXX);
-        int screenYYY = ((int) screenYY);
-        currentPlayer = new PlayerCircle(PlayerCircleBitmap,screenXXX-200,screenYYY-200,85,85,this);
+        int screenYYY = ((int) screenYY);*/
+        currentPlayer = new PlayerCircle(PlayerCircleBitmap,renderer.screenX-(renderer.screenX/5),0,85,85,this);
         renderer.draw(this);
     }
 
-    /**
-     * This method converts device specific pixels to density independent pixels.
-     *
-     * @param px A value in px (pixels) unit. Which we need to convert into db
-     * @param context Context to get resources and device specific display metrics
-     * @return A float value to represent dp equivalent to px value
-     */
+/*
+
     public static float convertPixelsToDp(float px, Context context){
         Resources resources = context.getResources();
         DisplayMetrics metrics = resources.getDisplayMetrics();
         float dp = px / ((float)metrics.densityDpi / DisplayMetrics.DENSITY_DEFAULT);
         return dp;
     }
+*/
 
     private void setupTimer(){
         txtV = (TextView) findViewById(R.id.tv);
