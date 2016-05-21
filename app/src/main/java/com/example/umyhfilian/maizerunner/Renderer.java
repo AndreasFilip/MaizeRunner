@@ -12,9 +12,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
-/**
- * Created by Administratör on 2016-05-09.
- */
+
 public class Renderer  {
 
     //public String scream;
@@ -22,7 +20,8 @@ public class Renderer  {
     public int screenX;
     public int screenY;
     MainActivity act;
-    PlayerCircle playerCircle;
+    PlayerCircle rendererPlayerCircle;
+    StagePiece rendererStagePiece;
 
 
 
@@ -39,7 +38,8 @@ public class Renderer  {
 
     public void draw(Context context){
         act = ((MainActivity)context);
-        playerCircle = act.currentPlayer;
+        rendererPlayerCircle = act.currentPlayer;
+        rendererStagePiece = act.stagePiece;
 
         // Declare an object of type Bitmap
         Bitmap blankBitmap;
@@ -60,8 +60,7 @@ public class Renderer  {
         // Put our blank bitmap on ourView
         scene.setImageBitmap(blankBitmap);
 
-        // We now have a surface ready to draw on
-        // But we need something to draw with
+        // We need something to draw with
 
         // Declare an object of type Paint
         Paint paint;
@@ -71,8 +70,13 @@ public class Renderer  {
         // Make the canvas white
         canvas.drawColor(Color.argb(255, 255, 255, 255));
 
+        paint.setColor(Color.argb(255,  249, 129, 0));
 
-        canvas.drawBitmap(playerCircle.playerCircle, null, playerCircle.rect, paint);
+
+        canvas.drawRect(rendererStagePiece.leftDistance,rendererStagePiece.topDistance,
+                 rendererStagePiece.rightDistance,rendererStagePiece.lowerDistance, paint);
+
+        canvas.drawBitmap(rendererPlayerCircle.playerCircle, null, rendererPlayerCircle.rect, paint);
 
         // Back to onCreate method to set our canvas as the view
 
