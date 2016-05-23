@@ -41,7 +41,7 @@ public class Renderer extends TimerTask {
         }
         draw(context);
         i2++;
-        Log.i("TAG","i2 is :" + i2);
+        //Log.i("TAG","i2 is :" + i2);
 
 
 
@@ -57,7 +57,6 @@ public class Renderer extends TimerTask {
     }
 
     public void draw(Context context){
-        Log.i("TAG", "LOL");
         act = ((MainActivity)context);
         rendererPlayerCircle = act.currentPlayer;
         rendererStagePiece = act.stagePiece;
@@ -88,22 +87,21 @@ public class Renderer extends TimerTask {
         // Initialize it ready for painting our canvas
         paint = new Paint();
 
-        int color = 10;
 
         // Make the canvas white
-        canvas.drawColor(Color.argb(color++, 255, 255, 255));
+        canvas.drawColor(Color.argb(255, 255, 255, 255));
 
         paint.setColor(Color.argb(255,  249, 129, 0));
 
 
         canvas.drawRect(rendererStagePiece.leftDistance,rendererStagePiece.topDistance,
                  rendererStagePiece.rightDistance,rendererStagePiece.lowerDistance, paint);
-
+        rendererPlayerCircle.rect.offset(5,0);
         canvas.drawBitmap(rendererPlayerCircle.playerCircle, null, rendererPlayerCircle.rect, paint);
 
+        scene.postInvalidate();
         // Back to onCreate method to set our canvas as the view
-
-
+        Log.i("TAG", "LOL");
 
     }
 

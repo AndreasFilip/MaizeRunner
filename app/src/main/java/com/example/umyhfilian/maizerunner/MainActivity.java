@@ -22,6 +22,8 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import java.util.Timer;
+import java.util.TimerTask;
+
 import butterknife.ButterKnife;
 
 public class MainActivity extends Activity implements SensorEventListener
@@ -34,6 +36,7 @@ public class MainActivity extends Activity implements SensorEventListener
     Animation animation2;
     public DisplayMetrics metrics;
     Renderer renderer;
+    Timer gameTimer;
     Context mainActivity;
 
     public Context getContext(){
@@ -93,6 +96,7 @@ public class MainActivity extends Activity implements SensorEventListener
 
         PlayerCircleBitmap = BitmapFactory.decodeResource(getResources(),R.drawable.ic_maize_runner_pc_huge);
         currentPlayer = new PlayerCircle(PlayerCircleBitmap,renderer.screenX-(renderer.screenX/5),0,85,85,this);
+        stagePiece = new StagePiece (50,450,500,550);
         renderer.draw(this);
     }
 
@@ -107,10 +111,7 @@ public class MainActivity extends Activity implements SensorEventListener
 
 
 
-        PlayerCircleBitmap = BitmapFactory.decodeResource(getResources(),R.drawable.ic_maize_runner_pc_huge);
-        currentPlayer = new PlayerCircle(PlayerCircleBitmap,renderer.screenX-(renderer.screenX/5),0,85,85,this);
-        stagePiece = new StagePiece (50,450,500,550);
-        renderer.draw(this);
+
     }
 
     @Override
@@ -179,6 +180,17 @@ public class MainActivity extends Activity implements SensorEventListener
 
                         final int FPS = 30;
                         timer2.scheduleAtFixedRate(renderer, 0, 1000/FPS);
+                        /**
+                         * Gameloop. ~30 times/sec
+                         */
+                        gameTimer = new Timer();
+                        gameTimer.schedule(new TimerTask() {
+                            @Override
+                            public void run() {
+                                renderer.scene.postInvalidate();
+                                Log.i("TAG","LOL2");
+                            }
+                        },33,33);
                     }
 
                     @Override

@@ -5,7 +5,7 @@ import android.graphics.Bitmap;
 import android.graphics.Rect;
 import android.util.Log;
 
-public class PlayerCircle {
+public class PlayerCircle  {
 
     public Bitmap playerCircle;
     float xSpeed;   //speed is in dp, converted to pix
@@ -22,11 +22,8 @@ public class PlayerCircle {
         this.ySpeed = activity.convertDpToPix(ySpeed);
         Log.i("MY_TAG",String.format("BALL SPEEDS: x %.2f y %.2f",this.xSpeed,this.ySpeed));
         this.activity = activity;
-
-
-
-
     }
+
 
 
 
