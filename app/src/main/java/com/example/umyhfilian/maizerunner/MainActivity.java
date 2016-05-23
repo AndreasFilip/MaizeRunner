@@ -29,6 +29,9 @@ import butterknife.ButterKnife;
 
 public class MainActivity extends Activity implements SensorEventListener
 {
+    float maxRange;
+    public float valueX;
+    public float valueY;
     private ImageView imageView;
     private TextView tv;
     private SensorManager sManager;
@@ -136,6 +139,7 @@ public class MainActivity extends Activity implements SensorEventListener
     @Override
     public void onAccuracyChanged(Sensor arg0, int arg1) {
         //Do nothing.
+        maxRange = arg0.getMaximumRange();
     }
 
     @Override
@@ -150,6 +154,10 @@ public class MainActivity extends Activity implements SensorEventListener
         tv.setText("Orientation X (Roll) :"+ Float.toString(event.values[2]) +"\n"+
                 "Orientation Y (Pitch) :"+ Float.toString(event.values[1]) +"\n"+
                 "Orientation Z (Yaw) :"+ Float.toString(event.values[0]));
+
+        valueX = event.values[2];
+        valueY = event.values[1];
+
 
         imageView.setX(300 - event.values[1]*4);
         imageView.setY(300 + event.values[2]*4);
@@ -197,7 +205,7 @@ public class MainActivity extends Activity implements SensorEventListener
                         gameTimer.schedule(new TimerTask() {
                             @Override
                             public void run() {
-                                renderer.rendererPlayerCircle.updateLocation();
+                                renderer.rendererPlayerCircle.updateLocation(valueX,valueY);
                                 renderer.postInvalidate();
                                 Log.i("TAG","LOL2");
                             }
