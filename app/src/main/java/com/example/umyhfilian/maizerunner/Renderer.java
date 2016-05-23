@@ -58,14 +58,15 @@ public class Renderer extends View {
 
     public void setup(Context context) {
         defineSize();
+
         act = ((MainActivity)context);
         rendererPlayerCircle = act.currentPlayer;
-        rendererStagePiece = act.stagePiece;
+        //rendererStagePiece = act.stagePiece;
         Bitmap playerCircleBitmap = BitmapFactory.decodeResource(getResources(),R.drawable.ic_maize_runner_pc_huge);
         act = ((MainActivity)context);
-        rendererPlayerCircle = act.currentPlayer;
         rendererStagePiece = act.stagePiece;
-        rendererPlayerCircle = new PlayerCircle(playerCircleBitmap,screenX-(screenX/5),0,85,85,act);
+        //rendererPlayerCircle = new PlayerCircle(playerCircleBitmap,screenX-(screenX/5),0,85,85,1,0,act);
+        rendererPlayerCircle = new PlayerCircle(playerCircleBitmap,100,100,85,85,5,0,act);
 
 
         // Declare an object of type Bitmap
@@ -144,7 +145,7 @@ public class Renderer extends View {
 
         canvas.drawRect(rendererStagePiece.leftDistance,rendererStagePiece.topDistance,
                 rendererStagePiece.rightDistance,rendererStagePiece.lowerDistance, paint);
-        rendererPlayerCircle.rect.offset(-5,0);
+        rendererPlayerCircle.rect.offset(1,0);
         canvas.drawBitmap(rendererPlayerCircle.playerCircle, null, rendererPlayerCircle.rect, paint);
     }
 

@@ -2,6 +2,7 @@ package com.example.umyhfilian.maizerunner;
 import android.app.Activity;
 import android.content.Context;
 import android.content.pm.ActivityInfo;
+import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.hardware.Sensor;
@@ -38,6 +39,8 @@ public class MainActivity extends Activity implements SensorEventListener
     Renderer renderer;
     Timer gameTimer;
     Context mainActivity;
+    public float screen_width_pix;       //current screen width in pix
+    public float screen_height_pix;      //screen height in pix
 
     public Context getContext(){
         Context context = this;
@@ -53,6 +56,7 @@ public class MainActivity extends Activity implements SensorEventListener
         super.onCreate(savedInstanceState);
         setupActivity();
         mainActivity = getContext();
+        getScreenSizeInPixels();
     }
 
     public void setupActivity(){
@@ -179,6 +183,13 @@ public class MainActivity extends Activity implements SensorEventListener
                     @Override
                     public void onAnimationEnd(Animation animation) {
 
+                        View decorView = getWindow().getDecorView();
+                        int uiOptions = View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+                                | View.SYSTEM_UI_FLAG_FULLSCREEN;
+                        decorView.setSystemUiVisibility(uiOptions);
+
+                        getScreenSizeInPixels();
+
                         /**
                          * Gameloop. ~30 times/sec
                          */
@@ -186,6 +197,7 @@ public class MainActivity extends Activity implements SensorEventListener
                         gameTimer.schedule(new TimerTask() {
                             @Override
                             public void run() {
+                                renderer.rendererPlayerCircle.updateLocation();
                                 renderer.postInvalidate();
                                 Log.i("TAG","LOL2");
                             }
@@ -213,5 +225,14 @@ public class MainActivity extends Activity implements SensorEventListener
     public Context getContext (Context context){
         context = getContext();
         return context;
+    }
+    /**
+     * grabbing the screen pixel size
+     */
+    public void getScreenSizeInPixels(){
+        Configuration config = getResources().getConfiguration();
+        screen_width_pix=convertDpToPix(config.screenWidthDp);
+        screen_height_pix=convertDpToPix(config.screenHeightDp);
+        Log.i("MY_TAG",String.format("w %.2f, h %.2f",screen_width_pix,screen_height_pix));
     }
 }
