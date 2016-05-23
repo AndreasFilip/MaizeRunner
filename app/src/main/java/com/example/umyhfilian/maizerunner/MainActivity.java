@@ -67,7 +67,7 @@ public class MainActivity extends Activity implements SensorEventListener
 
         setContentView(R.layout.start_screen);
         ButterKnife.bind(this);
-        renderer = new Renderer();
+        //renderer = new Renderer();
         //get the TextView from the layout file
         tv = (TextView) findViewById(R.id.tv);
         //Button for transition
@@ -92,12 +92,11 @@ public class MainActivity extends Activity implements SensorEventListener
          */
         metrics = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(metrics);
-        renderer.defineSize();
+//        renderer.defineSize();
 
         PlayerCircleBitmap = BitmapFactory.decodeResource(getResources(),R.drawable.ic_maize_runner_pc_huge);
-        currentPlayer = new PlayerCircle(PlayerCircleBitmap,renderer.screenX-(renderer.screenX/5),0,85,85,this);
         stagePiece = new StagePiece (50,450,500,550);
-        renderer.draw(this);
+
     }
 
 
@@ -165,9 +164,12 @@ public class MainActivity extends Activity implements SensorEventListener
         animation1.setAnimationListener(new Animation.AnimationListener() {
             @Override
             public void onAnimationEnd(Animation arg0) {
-                //setContentView(R.layout.activity_main);
-                setContentView(renderer.scene);
-                renderer.scene.startAnimation(animation2);
+                setContentView(R.layout.activity_main);
+                renderer = (Renderer) findViewById(R.id.canvas);
+                //renderer.draw(this);
+                //setContentView(renderer.scene);
+
+                renderer.startAnimation(animation2);
                 animation2.setAnimationListener(new Animation.AnimationListener() {
                     @Override
                     public void onAnimationStart(Animation animation) {
@@ -176,10 +178,7 @@ public class MainActivity extends Activity implements SensorEventListener
 
                     @Override
                     public void onAnimationEnd(Animation animation) {
-                        Timer timer2 = new Timer();
 
-                        final int FPS = 30;
-                        timer2.scheduleAtFixedRate(renderer, 0, 1000/FPS);
                         /**
                          * Gameloop. ~30 times/sec
                          */
@@ -187,7 +186,7 @@ public class MainActivity extends Activity implements SensorEventListener
                         gameTimer.schedule(new TimerTask() {
                             @Override
                             public void run() {
-                                renderer.scene.postInvalidate();
+                                renderer.postInvalidate();
                                 Log.i("TAG","LOL2");
                             }
                         },33,33);
