@@ -14,17 +14,23 @@ import android.widget.LinearLayout;
 import java.util.TimerTask;
 
 
+
 /**
  * Created by Administratör on 2016-05-09.
  */
 public class Renderer extends TimerTask {
 
+
+
+    PlayerCircle rendererPlayerCircle;
+    StagePiece rendererStagePiece;
     public ImageView scene;
     public int screenX;
     public int screenY;
     int i2 = 0;
 
     MainActivity act;
+
     PlayerCircle playerCircle;
     Context context;
     int i = 1;
@@ -36,6 +42,9 @@ public class Renderer extends TimerTask {
         draw(context);
         i2++;
         Log.i("TAG","i2 is :" + i2);
+
+
+
 
     }
 
@@ -50,7 +59,8 @@ public class Renderer extends TimerTask {
     public void draw(Context context){
         Log.i("TAG", "LOL");
         act = ((MainActivity)context);
-        playerCircle = act.currentPlayer;
+        rendererPlayerCircle = act.currentPlayer;
+        rendererStagePiece = act.stagePiece;
 
         // Declare an object of type Bitmap
         Bitmap blankBitmap;
@@ -71,8 +81,7 @@ public class Renderer extends TimerTask {
         // Put our blank bitmap on ourView
         scene.setImageBitmap(blankBitmap);
 
-        // We now have a surface ready to draw on
-        // But we need something to draw with
+        // We need something to draw with
 
         // Declare an object of type Paint
         Paint paint;
@@ -84,8 +93,13 @@ public class Renderer extends TimerTask {
         // Make the canvas white
         canvas.drawColor(Color.argb(color++, 255, 255, 255));
 
+        paint.setColor(Color.argb(255,  249, 129, 0));
 
-        canvas.drawBitmap(playerCircle.playerCircle, null, playerCircle.rect, paint);
+
+        canvas.drawRect(rendererStagePiece.leftDistance,rendererStagePiece.topDistance,
+                 rendererStagePiece.rightDistance,rendererStagePiece.lowerDistance, paint);
+
+        canvas.drawBitmap(rendererPlayerCircle.playerCircle, null, rendererPlayerCircle.rect, paint);
 
         // Back to onCreate method to set our canvas as the view
 

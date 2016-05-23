@@ -21,10 +21,7 @@ import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
-
 import java.util.Timer;
-import java.util.TimerTask;
-
 import butterknife.ButterKnife;
 
 public class MainActivity extends Activity implements SensorEventListener
@@ -45,6 +42,7 @@ public class MainActivity extends Activity implements SensorEventListener
 }
     public Bitmap PlayerCircleBitmap;
     PlayerCircle currentPlayer;
+    StagePiece stagePiece;
 
 
     @Override
@@ -92,6 +90,7 @@ public class MainActivity extends Activity implements SensorEventListener
         metrics = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(metrics);
         renderer.defineSize();
+
         PlayerCircleBitmap = BitmapFactory.decodeResource(getResources(),R.drawable.ic_maize_runner_pc_huge);
         currentPlayer = new PlayerCircle(PlayerCircleBitmap,renderer.screenX-(renderer.screenX/5),0,85,85,this);
         renderer.draw(this);
@@ -105,6 +104,13 @@ public class MainActivity extends Activity implements SensorEventListener
     protected void onDestroy() {
         super.onDestroy();
 
+
+
+
+        PlayerCircleBitmap = BitmapFactory.decodeResource(getResources(),R.drawable.ic_maize_runner_pc_huge);
+        currentPlayer = new PlayerCircle(PlayerCircleBitmap,renderer.screenX-(renderer.screenX/5),0,85,85,this);
+        stagePiece = new StagePiece (50,450,500,550);
+        renderer.draw(this);
     }
 
     @Override
