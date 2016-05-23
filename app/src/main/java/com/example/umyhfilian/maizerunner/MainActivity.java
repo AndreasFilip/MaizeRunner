@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.pm.ActivityInfo;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
@@ -22,6 +23,8 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import java.util.Timer;
+import java.util.TimerTask;
+
 import butterknife.ButterKnife;
 
 public class MainActivity extends Activity implements SensorEventListener
@@ -35,6 +38,15 @@ public class MainActivity extends Activity implements SensorEventListener
     public DisplayMetrics metrics;
     Renderer renderer;
     Context mainActivity;
+    public static final int BALL_DP_SIZE = 32;       // ball size in device independent size
+    public float screen_width_pix;       //current screen width in pix
+    public float screen_height_pix;      //screen height in pix
+
+
+    public Bitmap ballImg;      //ball img on assets folder
+    public Canvas myCanvas;     //canvas reference
+    public Ball myBall;         //ball data class
+    public Timer gameTimer;            //game loop timer
 
     public Context getContext(){
         Context context = this;
@@ -50,6 +62,15 @@ public class MainActivity extends Activity implements SensorEventListener
         super.onCreate(savedInstanceState);
         setupActivity();
         mainActivity = getContext();
+
+        gameTimer = new Timer();
+        gameTimer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                render();
+            }
+        },33,33);
+
     }
 
     public void setupActivity(){
@@ -69,6 +90,8 @@ public class MainActivity extends Activity implements SensorEventListener
         tv = (TextView) findViewById(R.id.tv);
         //Button for transition
         startButton = (Button) findViewById(R.id.startButton);
+
+
 
         startButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -93,6 +116,7 @@ public class MainActivity extends Activity implements SensorEventListener
 
         PlayerCircleBitmap = BitmapFactory.decodeResource(getResources(),R.drawable.ic_maize_runner_pc_huge);
         currentPlayer = new PlayerCircle(PlayerCircleBitmap,renderer.screenX-(renderer.screenX/5),0,85,85,this);
+        stagePiece = new StagePiece (50,450,500,550);
         renderer.draw(this);
     }
 
@@ -103,14 +127,6 @@ public class MainActivity extends Activity implements SensorEventListener
     @Override
     protected void onDestroy() {
         super.onDestroy();
-
-
-
-
-        PlayerCircleBitmap = BitmapFactory.decodeResource(getResources(),R.drawable.ic_maize_runner_pc_huge);
-        currentPlayer = new PlayerCircle(PlayerCircleBitmap,renderer.screenX-(renderer.screenX/5),0,85,85,this);
-        stagePiece = new StagePiece (50,450,500,550);
-        renderer.draw(this);
     }
 
     @Override
@@ -164,8 +180,9 @@ public class MainActivity extends Activity implements SensorEventListener
         animation1.setAnimationListener(new Animation.AnimationListener() {
             @Override
             public void onAnimationEnd(Animation arg0) {
-                //setContentView(R.layout.activity_main);
-                setContentView(renderer.scene);
+                setContentView(R.layout.activity_main);
+                myCanvas = (Canvas)findViewById(R.id.myCanvas);
+                myCanvas.setBackgroundColor(Color.GRAY);
                 renderer.scene.startAnimation(animation2);
                 animation2.setAnimationListener(new Animation.AnimationListener() {
                     @Override
@@ -175,10 +192,11 @@ public class MainActivity extends Activity implements SensorEventListener
 
                     @Override
                     public void onAnimationEnd(Animation animation) {
-                        Timer timer2 = new Timer();
+                   /*     Timer timer2 = new Timer();
 
                         final int FPS = 30;
-                        timer2.scheduleAtFixedRate(renderer, 0, 1000/FPS);
+                        timer2.scheduleAtFixedRate(renderer, 0, 1000/FPS);*/
+
                     }
 
                     @Override
@@ -202,5 +220,10 @@ public class MainActivity extends Activity implements SensorEventListener
     public Context getContext (Context context){
         context = getContext();
         return context;
+    }
+    public void render(){
+        Log.i("TAG", "HEJSAN");
+        currentPlayer.updateLocation();
+        myCanvas.postInvalidate();
     }
 }

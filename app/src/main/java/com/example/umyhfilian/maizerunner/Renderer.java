@@ -28,11 +28,12 @@ public class Renderer extends TimerTask {
     public int screenX;
     public int screenY;
     int i2 = 0;
+    Context context;
 
     MainActivity act;
 
     PlayerCircle playerCircle;
-    Context context;
+
     int i = 1;
     public void run() {
         if (i == 1) {
@@ -88,10 +89,9 @@ public class Renderer extends TimerTask {
         // Initialize it ready for painting our canvas
         paint = new Paint();
 
-        int color = 10;
 
         // Make the canvas white
-        canvas.drawColor(Color.argb(color++, 255, 255, 255));
+        canvas.drawColor(Color.argb(255, 255, 255, 255));
 
         paint.setColor(Color.argb(255,  249, 129, 0));
 
@@ -103,6 +103,7 @@ public class Renderer extends TimerTask {
 
         // Back to onCreate method to set our canvas as the view
 
+        int lol = 100;
 
 
     }
