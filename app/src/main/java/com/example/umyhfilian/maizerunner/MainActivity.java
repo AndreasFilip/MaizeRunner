@@ -1,9 +1,7 @@
 package com.example.umyhfilian.maizerunner;
-
 import android.app.Activity;
 import android.content.Context;
 import android.content.pm.ActivityInfo;
-import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.hardware.Sensor;
@@ -12,7 +10,6 @@ import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutCompat;
-import android.text.format.DateUtils;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.util.TypedValue;
@@ -24,8 +21,7 @@ import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
-import java.util.Calendar;
-import java.util.Date;
+
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -36,20 +32,9 @@ public class MainActivity extends Activity implements SensorEventListener
     private ImageView imageView;
     private TextView tv;
     private SensorManager sManager;
-
     LinearLayoutCompat linearLayout;
-
     Animation animation1;
     Animation animation2;
-    TextView txtV;
-    Button stateBtn;
-    Timer timer;
-    boolean state;
-    Date startDate;
-    Date endDate;
-    double tiodelarAvSekund;
-    Calendar calendar;
-
     public DisplayMetrics metrics;
     Renderer renderer;
     Context mainActivity;
@@ -66,7 +51,6 @@ public class MainActivity extends Activity implements SensorEventListener
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setupActivity();
-        setupTimer();
         mainActivity = getContext();
     }
 
@@ -85,7 +69,6 @@ public class MainActivity extends Activity implements SensorEventListener
         renderer = new Renderer();
         //get the TextView from the layout file
         tv = (TextView) findViewById(R.id.tv);
-
         //Button for transition
         startButton = (Button) findViewById(R.id.startButton);
 
@@ -110,66 +93,17 @@ public class MainActivity extends Activity implements SensorEventListener
         getWindowManager().getDefaultDisplay().getMetrics(metrics);
         renderer.defineSize();
         PlayerCircleBitmap = BitmapFactory.decodeResource(getResources(),R.drawable.ic_maize_runner_pc_huge);
-       /* float screenXX = ((float) renderer.screenX);
-        float screenYY = ((float) renderer.screenY);
-        convertPixelsToDp(screenXX,this);
-        convertPixelsToDp(screenYY,this);
-        int screenXXX = ((int) screenXX);
-        int screenYYY = ((int) screenYY);*/
         currentPlayer = new PlayerCircle(PlayerCircleBitmap,renderer.screenX-(renderer.screenX/5),0,85,85,this);
         renderer.draw(this);
     }
 
-/*
-
-    public static float convertPixelsToDp(float px, Context context){
-        Resources resources = context.getResources();
-        DisplayMetrics metrics = resources.getDisplayMetrics();
-        float dp = px / ((float)metrics.densityDpi / DisplayMetrics.DENSITY_DEFAULT);
-        return dp;
-    }
-*/
-
-    private void setupTimer(){
-        txtV = (TextView) findViewById(R.id.tv);
 
 
-                    calendar = Calendar.getInstance();
-                    startDate = calendar.getTime();
-                    state = true;
-                    tiodelarAvSekund = 0;
-                    setTimer();
 
-            }
-
-    public void setTimer() {
-        timer = new Timer();                //ni både skapa en ny timer varje gång här!
-        timer.schedule(new TimerTask() {
-            @Override
-            public void run() {
-                tiodelarAvSekund += 0.1;
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        txtV.setText(String.format("%.1f", tiodelarAvSekund));
-                    }
-                });
-
-            }
-        }, 100, 100);        //millisekunder
-    }
-
-    public void getTimeDifference() {
-        Log.i("TAG", "" + (endDate.getTime() - startDate.getTime()));
-        Log.i("TAG", DateUtils.formatElapsedTime(null, ((endDate.getTime() - startDate.getTime()) / 1000)));
-    }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        if (timer != null) {
-            timer.cancel();
-        }
 
     }
 
@@ -224,7 +158,7 @@ public class MainActivity extends Activity implements SensorEventListener
         animation1.setAnimationListener(new Animation.AnimationListener() {
             @Override
             public void onAnimationEnd(Animation arg0) {
-                setContentView(R.layout.activity_main);
+                //setContentView(R.layout.activity_main);
                 setContentView(renderer.scene);
                 renderer.scene.startAnimation(animation2);
                 animation2.setAnimationListener(new Animation.AnimationListener() {
@@ -235,7 +169,10 @@ public class MainActivity extends Activity implements SensorEventListener
 
                     @Override
                     public void onAnimationEnd(Animation animation) {
+                        Timer timer2 = new Timer();
 
+                        final int FPS = 30;
+                        timer2.scheduleAtFixedRate(renderer, 0, 1000/FPS);
                     }
 
                     @Override
@@ -255,5 +192,9 @@ public class MainActivity extends Activity implements SensorEventListener
                 //Functionality here
             }
         });
+    }
+    public Context getContext (Context context){
+        context = getContext();
+        return context;
     }
 }

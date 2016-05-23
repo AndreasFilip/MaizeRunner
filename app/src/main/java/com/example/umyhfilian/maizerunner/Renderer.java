@@ -6,29 +6,38 @@ import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.util.Log;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.TextView;
 import android.widget.LinearLayout;
+
+import java.util.TimerTask;
 
 
 /**
  * Created by Administratör on 2016-05-09.
  */
-public class Renderer  {
+public class Renderer extends TimerTask {
 
-    //public String scream;
-    TextView textView;
     public ImageView scene;
     public int screenX;
     public int screenY;
-
-  /*  MainActivity mainActivity;
-    Context context;*/
+    int i2 = 0;
 
     MainActivity act;
     PlayerCircle playerCircle;
+    Context context;
+    int i = 1;
+    public void run() {
+        if (i == 1) {
+            context = act.getContext();
+            i = 2 ;
+        }
+        draw(context);
+        i2++;
+        Log.i("TAG","i2 is :" + i2);
 
+    }
 
     public void defineSize (){
 
@@ -39,6 +48,7 @@ public class Renderer  {
     }
 
     public void draw(Context context){
+        Log.i("TAG", "LOL");
         act = ((MainActivity)context);
         playerCircle = act.currentPlayer;
 
@@ -69,8 +79,10 @@ public class Renderer  {
         // Initialize it ready for painting our canvas
         paint = new Paint();
 
+        int color = 10;
+
         // Make the canvas white
-        canvas.drawColor(Color.argb(255, 255, 255, 255));
+        canvas.drawColor(Color.argb(color++, 255, 255, 255));
 
 
         canvas.drawBitmap(playerCircle.playerCircle, null, playerCircle.rect, paint);
