@@ -240,8 +240,8 @@ public class MainActivity extends Activity implements SensorEventListener
      */
     public void getScreenSizeInPixels(){
         Configuration config = getResources().getConfiguration();
-        screen_width_pix=convertDpToPix(config.screenWidthDp);
-        screen_height_pix=convertDpToPix(config.screenHeightDp);
+        screen_width_pix=convertDpToPix(config.screenWidthDp)+112;
+        screen_height_pix=convertDpToPix(config.screenHeightDp)+80;
         Log.i("MY_TAG",String.format("w %.2f, h %.2f",screen_width_pix,screen_height_pix));
     }
 }

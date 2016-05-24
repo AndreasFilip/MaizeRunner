@@ -14,6 +14,7 @@ public class PlayerCircle  {
     float maxYSpeed = 50;
     Rect rect;      //built in hitbox class.
     MainActivity activity;
+    int margin = 5;
 
     public  PlayerCircle (Bitmap playerCircle, int x, int y,float h,float w,float xSpeed, float ySpeed, MainActivity act){
         this.activity = act;
@@ -31,58 +32,50 @@ public class PlayerCircle  {
      */
     public void updateLocation(float x,float y){
         //HÖGER
-        if (rect.right+xSpeed < activity.screen_width_pix+116){
-            /*Log.i("MY_TAG1","" + x);
-            rect.offset((int)xSpeed*((int)x/45),(int)ySpeed * ((int)y/45));
-            Log.i("TAG",""+ xSpeed*((int)x/45));
-            Log.i("MY_TAG","offsetting");*/
+        if (rect.right+xSpeed < activity.screen_width_pix){
             //VÄNSTER
             if (rect.left+xSpeed > 0){
-                /*Log.i("MY_TAG1","" + x);
-                rect.offset((int)xSpeed*((int)x/45),(int)ySpeed * ((int)y/45));
-                Log.i("TAG",""+ xSpeed*((int)x/45));
-                Log.i("MY_TAG","offsetting");*/
                 //BOTTOM
-                if (rect.bottom+xSpeed < activity.screen_height_pix+80){
-                    /*Log.i("MY_TAG1","" + x);
-                    rect.offset((int)xSpeed*((int)x/45),(int)ySpeed * ((int)y/45));
-                    Log.i("TAG",""+ xSpeed*((int)x/45));
-                    Log.i("MY_TAG","offsetting");*/
-
+                if (rect.bottom+xSpeed < activity.screen_height_pix){
                      //TOP
                     if (rect.top+xSpeed > 0){
-                    /*Log.i("MY_TAG1","" + x);
-                    rect.offset((int)xSpeed*((int)x/45),(int)ySpeed * ((int)y/45));
-                    Log.i("TAG",""+ xSpeed*((int)x/45));
-                    Log.i("MY_TAG","offsetting");*/
                     }
                     //touches top
                     else{
-                        rect.set(rect.left+(int)xSpeed,1,rect.left+(int)xSpeed+rect.width(),1+rect.height());
-                        return;
 
-                }
+                        rect.set(rect.left+(int)xSpeed,margin,rect.left+(int)xSpeed+rect.width(),margin+rect.height());
+                        xSpeed = 0;
+                        ySpeed = 0;
+                        return;
+                    }
                 }
                 //touches bottom
                 else{
-                    rect.set(rect.left+(int)xSpeed,(int)activity.screen_height_pix-rect.height()-1,rect.left+(int)xSpeed+rect.width(),(int)activity.screen_height_pix-1);
+                    rect.set(rect.left+(int)xSpeed,(int)activity.screen_height_pix-rect.height()-margin,rect.left+(int)xSpeed+rect.width(),(int)activity.screen_height_pix-margin);
+                    xSpeed = 0;
+                    ySpeed = 0;
                     return;
                 }
             }
             //touches left
         else{
-                rect.set(1,rect.top+(int)ySpeed,1+rect.width(),rect.top+rect.height());
+                rect.set(margin,rect.top+(int)ySpeed,margin+rect.width(),rect.top+rect.height()+(int)ySpeed);
+                xSpeed = 0;
+                ySpeed = 0;
                 return;
             }
         }
         //Touches right
         else{
-            rect.set((int)activity.screen_width_pix-rect.width()-1,rect.top+(int)ySpeed,(int)activity.screen_width_pix-1,rect.top+(int)ySpeed+rect.height());
+            rect.set((int)activity.screen_width_pix-rect.width()-margin,rect.top+(int)ySpeed,(int)activity.screen_width_pix-margin,rect.top+(int)ySpeed+rect.height());
+            xSpeed = 0;
+            ySpeed = 0;
             return;
         }
 
         xSpeed = maxXSpeed * (activity.valueX / activity.maxRange);
         ySpeed = maxYSpeed * (activity.valueY / activity.maxRange);
+
         rect.offset((int)-ySpeed,(int)xSpeed);
         /*else{
             rect.set((int)activity.screen_width_pix-rect.width(),rect.top,(int)activity.screen_width_pix,rect.top+rect.height());
