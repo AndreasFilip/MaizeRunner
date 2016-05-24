@@ -66,7 +66,7 @@ public class Renderer extends View {
         act = ((MainActivity)context);
         rendererStagePiece = act.stagePiece;
         //rendererPlayerCircle = new PlayerCircle(playerCircleBitmap,screenX-(screenX/5),0,85,85,1,0,act);
-        rendererPlayerCircle = new PlayerCircle(playerCircleBitmap,100,100,85,85,5,5,act);
+        rendererPlayerCircle = new PlayerCircle(playerCircleBitmap,100,100,85,85,0,0,act);
 
         // Declare an object of type Bitmap
         Bitmap blankBitmap;

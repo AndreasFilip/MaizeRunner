@@ -92,6 +92,7 @@ public class MainActivity extends Activity implements SensorEventListener
         imageView = (ImageView)findViewById(R.id.imageView);
         //get a hook to the sensor service
         sManager = (SensorManager) getSystemService(SENSOR_SERVICE);
+        maxRange = sManager.getDefaultSensor(Sensor.TYPE_ORIENTATION).getMaximumRange();
 
 
         /**
@@ -139,7 +140,7 @@ public class MainActivity extends Activity implements SensorEventListener
     @Override
     public void onAccuracyChanged(Sensor arg0, int arg1) {
         //Do nothing.
-        maxRange = arg0.getMaximumRange();
+        //maxRange = arg0.getMaximumRange();
     }
 
     @Override
