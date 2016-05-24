@@ -10,11 +10,11 @@ public class PlayerCircle  {
     public Bitmap playerCircle;
     float xSpeed;   //speed is in dp, converted to pix
     float ySpeed;
-    float maxXSpeed = 50;
-    float maxYSpeed = 50;
+    float maxXSpeed = 80;
+    float maxYSpeed = 80;
     Rect rect;      //built in hitbox class.
     MainActivity activity;
-    int margin = 5;
+    int margin = 4;
 
     public  PlayerCircle (Bitmap playerCircle, int x, int y,float h,float w,float xSpeed, float ySpeed, MainActivity act){
         this.activity = act;
