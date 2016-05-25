@@ -58,15 +58,15 @@ public class Renderer extends View {
 
     public void setup(Context context) {
         defineSize();
+
         act = ((MainActivity)context);
         rendererPlayerCircle = act.currentPlayer;
-        rendererStagePiece = act.stagePiece;
+        //rendererStagePiece = act.stagePiece;
         Bitmap playerCircleBitmap = BitmapFactory.decodeResource(getResources(),R.drawable.ic_maize_runner_pc_huge);
         act = ((MainActivity)context);
-        rendererPlayerCircle = act.currentPlayer;
         rendererStagePiece = act.stagePiece;
-        rendererPlayerCircle = new PlayerCircle(playerCircleBitmap,screenX-(screenX/5),0,85,85,act);
-
+        //rendererPlayerCircle = new PlayerCircle(playerCircleBitmap,screenX-(screenX/5),0,85,85,1,0,act);
+        rendererPlayerCircle = new PlayerCircle(playerCircleBitmap,100,100,85,85,0,0,act);
 
         // Declare an object of type Bitmap
         Bitmap blankBitmap;
@@ -90,8 +90,10 @@ public class Renderer extends View {
         // We need something to draw with
 
         // Initialize it ready for painting our canvas
+
         paint = new Paint();
         paint.setColor(Color.argb(255,  249, 129, 0));
+        paint.setTextSize(act.convertDpToPix(32));
 
         // Declare an object of type Bitmap
         /*Bitmap blankBitmap;
@@ -142,9 +144,10 @@ public class Renderer extends View {
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
 
+        canvas.drawText("X is:" + act.valueX,50,50,paint);
+        canvas.drawText("Y is:" + act.valueY,100,100,paint);
         canvas.drawRect(rendererStagePiece.leftDistance,rendererStagePiece.topDistance,
                 rendererStagePiece.rightDistance,rendererStagePiece.lowerDistance, paint);
-        rendererPlayerCircle.rect.offset(-5,0);
         canvas.drawBitmap(rendererPlayerCircle.playerCircle, null, rendererPlayerCircle.rect, paint);
     }
 
