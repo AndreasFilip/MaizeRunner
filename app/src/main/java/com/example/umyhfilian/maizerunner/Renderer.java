@@ -3,25 +3,29 @@ package com.example.umyhfilian.maizerunner;
 import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.Toast;
 
 
 public class Renderer  {
 
-    //public String scream;
     public ImageView scene;
     public int screenX;
     public int screenY;
     MainActivity act;
     PlayerCircle rendererPlayerCircle;
     StagePiece rendererStagePiece;
+    Goal rendererGoal;
+
+    StagePiece rendererStagePiece1;
+    StagePiece rendererStagePiece2;
+    StagePiece rendererStagePiece3;
+    StagePiece rendererStagePiece4;
+    StagePiece rendererStagePiece5;
 
 
 
@@ -40,10 +44,20 @@ public class Renderer  {
         act = ((MainActivity)context);
         rendererPlayerCircle = act.currentPlayer;
         rendererStagePiece = act.stagePiece;
+        rendererGoal = act.currentGoal;
+
+        rendererStagePiece1 = act.currentStage[0];
+        rendererStagePiece2 = act.currentStage[1];
+        rendererStagePiece3 = act.currentStage[2];
+        rendererStagePiece4 = act.currentStage[3];
+        rendererStagePiece5 = act.currentStage[4];
+
+
+
 
         // Declare an object of type Bitmap
         Bitmap blankBitmap;
-        // Make it 600 x 600 pixels in size and an appropriate format
+        // Make it as big as the screen.
         blankBitmap = Bitmap.createBitmap(screenX,screenY,Bitmap.Config.ARGB_8888);
 
         // Declare an object of type canvas
@@ -60,11 +74,9 @@ public class Renderer  {
         // Put our blank bitmap on ourView
         scene.setImageBitmap(blankBitmap);
 
-        // We need something to draw with
 
         // Declare an object of type Paint
         Paint paint;
-        // Initialize it ready for painting our canvas
         paint = new Paint();
 
         // Make the canvas white
@@ -73,8 +85,9 @@ public class Renderer  {
         paint.setColor(Color.argb(255,  249, 129, 0));
 
 
-        canvas.drawRect(rendererStagePiece.leftDistance,rendererStagePiece.topDistance,
-                 rendererStagePiece.rightDistance,rendererStagePiece.lowerDistance, paint);
+       drawStage(canvas,paint);
+
+        canvas.drawBitmap(rendererGoal.goal, null, rendererGoal.rect,paint);
 
         canvas.drawBitmap(rendererPlayerCircle.playerCircle, null, rendererPlayerCircle.rect, paint);
 
@@ -90,6 +103,24 @@ public class Renderer  {
 
     public static int getScreenHeight() {
         return Resources.getSystem().getDisplayMetrics().heightPixels;
+    }
+
+    public  void drawStage(Canvas canvas, Paint paint){ //Ritar upp alla bitar av Stage
+
+        canvas.drawRect(rendererStagePiece1.leftDistance,rendererStagePiece1.topDistance,
+                rendererStagePiece1.rightDistance,rendererStagePiece1.lowerDistance,paint);
+
+        canvas.drawRect(rendererStagePiece2.leftDistance,rendererStagePiece2.topDistance,
+                rendererStagePiece2.rightDistance,rendererStagePiece2.lowerDistance,paint);
+
+        canvas.drawRect(rendererStagePiece3.leftDistance,rendererStagePiece3.topDistance,
+                rendererStagePiece3.rightDistance,rendererStagePiece3.lowerDistance,paint);
+
+        canvas.drawRect(rendererStagePiece4.leftDistance,rendererStagePiece4.topDistance,
+                rendererStagePiece4.rightDistance,rendererStagePiece4.lowerDistance,paint);
+
+        canvas.drawRect(rendererStagePiece5.leftDistance,rendererStagePiece5.topDistance,
+                rendererStagePiece5.rightDistance,rendererStagePiece5.lowerDistance,paint);
     }
 
 

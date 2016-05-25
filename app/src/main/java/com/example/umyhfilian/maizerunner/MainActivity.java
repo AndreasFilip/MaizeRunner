@@ -37,8 +37,12 @@ public class MainActivity extends Activity implements SensorEventListener
     Renderer renderer = new Renderer();
 
     public Bitmap PlayerCircleBitmap;
+    public Bitmap GoalBitmap;
     PlayerCircle currentPlayer;
     StagePiece stagePiece;
+    StagePiece [] currentStage;
+    Goal currentGoal;
+
 
 
     @Override
@@ -48,7 +52,6 @@ public class MainActivity extends Activity implements SensorEventListener
     }
 
     public void setupActivity(){
-
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE); //Låser telefonen i landskap
 
         // remove titlebar
@@ -58,6 +61,7 @@ public class MainActivity extends Activity implements SensorEventListener
 
         setContentView(R.layout.start_screen);
         ButterKnife.bind(this);
+
 
         //get the TextView from the layout file
         tv = (TextView) findViewById(R.id.tv);
@@ -88,9 +92,13 @@ public class MainActivity extends Activity implements SensorEventListener
 
 
         PlayerCircleBitmap = BitmapFactory.decodeResource(getResources(),R.drawable.ic_maize_runner_pc_huge);
-        currentPlayer = new PlayerCircle(PlayerCircleBitmap,renderer.screenX-(renderer.screenX/5),0,85,85,this);
-        stagePiece = new StagePiece (50,450,500,550);
+        GoalBitmap = BitmapFactory.decodeResource(getResources(),R.mipmap.ic_goal2);
 
+        currentPlayer = new PlayerCircle(PlayerCircleBitmap,renderer.screenX-(renderer.screenX/5),0,85,85,this);
+        currentGoal = new Goal(GoalBitmap,15,5,70,70,this);
+        stagePiece = new StagePiece(100,10,100,10);
+        currentStage = new StagePiece[5];
+        currentStage = stagePiece.DemoStage();
 
         renderer.draw(this);
     }
