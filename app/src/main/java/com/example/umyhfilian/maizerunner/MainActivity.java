@@ -74,8 +74,6 @@ public class MainActivity extends Activity implements SensorEventListener
 
         setContentView(R.layout.start_screen);
         ButterKnife.bind(this);
-        //renderer = new Renderer();
-        //get the TextView from the layout file
         tv = (TextView) findViewById(R.id.tv);
         //Button for transition
         startButton = (Button) findViewById(R.id.startButton);
@@ -83,12 +81,10 @@ public class MainActivity extends Activity implements SensorEventListener
         startButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 Log.i("TAG","YOU PRESSED BUTTON");
                 fade();
             }
         });
-
         imageView = (ImageView)findViewById(R.id.imageView);
         //get a hook to the sensor service
         sManager = (SensorManager) getSystemService(SENSOR_SERVICE);
@@ -100,25 +96,8 @@ public class MainActivity extends Activity implements SensorEventListener
          */
         metrics = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(metrics);
-//        renderer.defineSize();
-
         PlayerCircleBitmap = BitmapFactory.decodeResource(getResources(),R.drawable.ic_maize_runner_pc_huge);
         stagePiece = new StagePiece (50,450,500,550);
-
-    }
-
-
-
-
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-
-
-
-
-
     }
 
     @Override
@@ -139,8 +118,6 @@ public class MainActivity extends Activity implements SensorEventListener
 
     @Override
     public void onAccuracyChanged(Sensor arg0, int arg1) {
-        //Do nothing.
-        //maxRange = arg0.getMaximumRange();
     }
 
     @Override
@@ -150,16 +127,12 @@ public class MainActivity extends Activity implements SensorEventListener
         {
             return;
         }
-
         //else it will output the Roll, Pitch and Yawn values
         tv.setText("Orientation X (Roll) :"+ Float.toString(event.values[2]) +"\n"+
                 "Orientation Y (Pitch) :"+ Float.toString(event.values[1]) +"\n"+
                 "Orientation Z (Yaw) :"+ Float.toString(event.values[0]));
-
         valueX = event.values[2];
         valueY = event.values[1];
-
-
         imageView.setX(300 - event.values[1]*4);
         imageView.setY(300 + event.values[2]*4);
     }
@@ -179,14 +152,10 @@ public class MainActivity extends Activity implements SensorEventListener
             public void onAnimationEnd(Animation arg0) {
                 setContentView(R.layout.activity_main);
                 renderer = (Renderer) findViewById(R.id.canvas);
-                //renderer.draw(this);
-                //setContentView(renderer.scene);
-
                 renderer.startAnimation(animation2);
                 animation2.setAnimationListener(new Animation.AnimationListener() {
                     @Override
                     public void onAnimationStart(Animation animation) {
-                        //SPEL LOGIK SKA STARTA HÄR
                     }
 
                     @Override
@@ -196,7 +165,6 @@ public class MainActivity extends Activity implements SensorEventListener
                         int uiOptions = View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
                                 | View.SYSTEM_UI_FLAG_FULLSCREEN;
                         decorView.setSystemUiVisibility(uiOptions);
-
                         getScreenSizeInPixels();
 
                         /**
@@ -230,10 +198,6 @@ public class MainActivity extends Activity implements SensorEventListener
                 //Functionality here
             }
         });
-    }
-    public Context getContext (Context context){
-        context = getContext();
-        return context;
     }
     /**
      * grabbing the screen pixel size
