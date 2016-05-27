@@ -2,7 +2,6 @@ package com.example.umyhfilian.maizerunner;
 import android.app.Activity;
 import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
-import android.graphics.Bitmap;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
@@ -34,9 +33,7 @@ public class MainActivity extends Activity implements SensorEventListener
     private Timer gameTimer;        //Game timer
     protected float screen_width_pix;   //current screen width in pix
     protected float screen_height_pix;  //screen height in pix
-    public Bitmap PlayerCircleBitmap;   //Image file for player object
     PlayerCircle currentPlayer;         //Instance of player object
-    StagePiece stagePiece;              //Instance of obstacles
 
 
     @Override
