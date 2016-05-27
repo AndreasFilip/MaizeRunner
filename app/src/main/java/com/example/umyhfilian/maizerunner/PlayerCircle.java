@@ -5,16 +5,18 @@ import android.graphics.Bitmap;
 import android.graphics.Rect;
 import android.util.Log;
 
+/**
+ * Class that handles player movement
+ */
 public class PlayerCircle  {
 
-    public Bitmap playerCircle;
-    float xSpeed;   //speed is in dp, converted to pix
-    float ySpeed;
-    float maxXSpeed = 80;
-    float maxYSpeed = 80;
-    Rect rect;      //built in hitbox class.
-    MainActivity activity;
-    int margin = 4;
+    protected Bitmap playerCircle;
+    private float xSpeed;   //speed is in dp, converted to pix
+    private float ySpeed;   //speed is in dp, converted to pix
+    private float maxXSpeed = 80;   //Variable that controls the players max-speed
+    private float maxYSpeed = 80;   //Variable that controls the players max-speed
+    protected Rect rect;      //built in hitbox class.
+    private MainActivity activity;
 
     public  PlayerCircle (Bitmap playerCircle, int x, int y,float h,float w,float xSpeed, float ySpeed, MainActivity act){
         this.activity = act;
@@ -31,9 +33,10 @@ public class PlayerCircle  {
      * use offset to move, and set to position at specified location
      */
     public void updateLocation(float x,float y){
-        //HÖGER
+        //RIGHT
+        int collisionOffsetValue = 4; // The offset value which the player is offset when hitting a wall
         if (rect.right+xSpeed < activity.screen_width_pix){
-            //VÄNSTER
+            //LEFT
             if (rect.left+xSpeed > 0){
                 //BOTTOM
                 if (rect.bottom+xSpeed < activity.screen_height_pix){
@@ -43,7 +46,7 @@ public class PlayerCircle  {
                     //touches top
                     else{
 
-                        rect.set(rect.left+(int)xSpeed,margin,rect.left+(int)xSpeed+rect.width(),margin+rect.height());
+                        rect.set(rect.left+(int)xSpeed, collisionOffsetValue,rect.left+(int)xSpeed+rect.width(), collisionOffsetValue +rect.height());
                         xSpeed = 0;
                         ySpeed = 0;
                         return;
@@ -51,7 +54,7 @@ public class PlayerCircle  {
                 }
                 //touches bottom
                 else{
-                    rect.set(rect.left+(int)xSpeed,(int)activity.screen_height_pix-rect.height()-margin,rect.left+(int)xSpeed+rect.width(),(int)activity.screen_height_pix-margin);
+                    rect.set(rect.left+(int)xSpeed,(int)activity.screen_height_pix-rect.height()- collisionOffsetValue,rect.left+(int)xSpeed+rect.width(),(int)activity.screen_height_pix- collisionOffsetValue);
                     xSpeed = 0;
                     ySpeed = 0;
                     return;
@@ -59,7 +62,7 @@ public class PlayerCircle  {
             }
             //touches left
         else{
-                rect.set(margin,rect.top+(int)ySpeed,margin+rect.width(),rect.top+rect.height()+(int)ySpeed);
+                rect.set(collisionOffsetValue,rect.top+(int)ySpeed, collisionOffsetValue +rect.width(),rect.top+rect.height()+(int)ySpeed);
                 xSpeed = 0;
                 ySpeed = 0;
                 return;
@@ -67,7 +70,7 @@ public class PlayerCircle  {
         }
         //Touches right
         else{
-            rect.set((int)activity.screen_width_pix-rect.width()-margin,rect.top+(int)ySpeed,(int)activity.screen_width_pix-margin,rect.top+(int)ySpeed+rect.height());
+            rect.set((int)activity.screen_width_pix-rect.width()- collisionOffsetValue,rect.top+(int)ySpeed,(int)activity.screen_width_pix- collisionOffsetValue,rect.top+(int)ySpeed+rect.height());
             xSpeed = 0;
             ySpeed = 0;
             return;
@@ -77,20 +80,7 @@ public class PlayerCircle  {
         ySpeed = maxYSpeed * (activity.valueY / activity.maxRange);
 
         rect.offset((int)-ySpeed,(int)xSpeed);
-        /*else{
-            rect.set((int)activity.screen_width_pix-rect.width(),rect.top,(int)activity.screen_width_pix,rect.top+rect.height());
-            Log.i("MY_TAG", "setting to border");
-        }*/
-        Log.i("MY_TAG",String.format("Ball pos: x:%d y:%d w:%d h:%d ",this.rect.left,this.rect.top, this.rect.width(),this.rect.height()));
-    /*    //HÖGER
-        if(x+rect.width()+xSpeed < activity.screen_width_pix){
-            //VÄNSTER
-        if (x+xSpeed > 0){
-            //TOP
-            if(y+ySpeed > 0){
+        Log.d("MY_TAG",String.format("Ball pos: x:%d y:%d w:%d h:%d ",this.rect.left,this.rect.top, this.rect.width(),this.rect.height()));
 
-            }
-        }
-    }*/
     }
 }
