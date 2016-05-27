@@ -13,29 +13,18 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
-
-
-
 /**
- * Created by Administratör on 2016-05-09.
+ * Class responsible for drawing graphics
  */
 public class Renderer extends View {
 
-
-
-    PlayerCircle rendererPlayerCircle;
-    StagePiece rendererStagePiece;
-    public ImageView scene;
-    public int screenX;
-    public int screenY;
-    Paint paint;
-
-
-    MainActivity act;
+    protected PlayerCircle rendererPlayerCircle;
+    private int screenX;
+    private int screenY;
+    private Paint paint;
 
     public Renderer(Context context) {
         super(context);
-
         setup(context);
     }
 
@@ -51,15 +40,14 @@ public class Renderer extends View {
 
     public void setup(Context context) {
         defineSize();
-        act = ((MainActivity)context);
+        MainActivity act = ((MainActivity) context);
         rendererPlayerCircle = act.currentPlayer;
         Bitmap playerCircleBitmap = BitmapFactory.decodeResource(getResources(),R.drawable.ic_maize_runner_pc_huge);
         act = ((MainActivity)context);
-        rendererStagePiece = act.stagePiece;
-        rendererPlayerCircle = new PlayerCircle(playerCircleBitmap,100,100,85,85,0,0,act);
+        rendererPlayerCircle = new PlayerCircle(playerCircleBitmap,100,100,85,85,0,0, act);
         Bitmap blankBitmap;
         blankBitmap = Bitmap.createBitmap(screenX,screenY,Bitmap.Config.ARGB_8888);
-        scene = new ImageView(context);
+        ImageView scene = new ImageView(context);
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
         scene.setLayoutParams(params);
         scene.setImageBitmap(blankBitmap);
@@ -70,21 +58,13 @@ public class Renderer extends View {
 
 
     public void defineSize (){
-
-
         screenX = getScreenWidth();
         screenY = getScreenHeight();
-
     }
 
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
-
-        canvas.drawText("X is:" + act.valueX,50,50,paint);
-        canvas.drawText("Y is:" + act.valueY,100,100,paint);
-        canvas.drawRect(rendererStagePiece.leftDistance,rendererStagePiece.topDistance,
-                rendererStagePiece.rightDistance,rendererStagePiece.lowerDistance, paint);
         canvas.drawBitmap(rendererPlayerCircle.playerCircle, null, rendererPlayerCircle.rect, paint);
     }
 

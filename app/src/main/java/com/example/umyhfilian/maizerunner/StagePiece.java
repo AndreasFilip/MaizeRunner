@@ -1,11 +1,12 @@
 package com.example.umyhfilian.maizerunner;
 
-import android.graphics.Rect;
 
-
+/**
+ * Class responsible for Obstacles
+ * //TODO: Convert this class to a rect
+ */
 public class StagePiece {
 
-    Rect rect;
 
    public int leftDistance;
    public int topDistance;

@@ -1,6 +1,5 @@
 package com.example.umyhfilian.maizerunner;
 import android.app.Activity;
-import android.content.Context;
 import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
 import android.graphics.Bitmap;
@@ -20,77 +19,58 @@ import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
-import android.widget.ImageView;
-import android.widget.TextView;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import butterknife.ButterKnife;
 
 public class MainActivity extends Activity implements SensorEventListener
 {
-    float maxRange;
-    public float valueX;
-    public float valueY;
-    private ImageView imageView;
-    private TextView tv;
-    private SensorManager sManager;
-    LinearLayoutCompat linearLayout;
-    Animation animation1;
-    Animation animation2;
-    public DisplayMetrics metrics;
-    Renderer renderer;
-    Timer gameTimer;
-    Context mainActivity;
-    public float screen_width_pix;       //current screen width in pix
-    public float screen_height_pix;      //screen height in pix
-
-    public Context getContext(){
-        Context context = this;
-        return context;
-}
-    public Bitmap PlayerCircleBitmap;
-    PlayerCircle currentPlayer;
-    StagePiece stagePiece;
+    protected float maxRange;   //Max range for Gyroscope
+    protected float valueX;     //X-value for gyroscope
+    protected float valueY;     //Y-value for gyroscope
+    private SensorManager sManager; //Needed to an instance of the Gyroscope
+    private Animation animation2;   //Animation for transition to game screen
+    private DisplayMetrics metrics; //Needed to get screen size
+    private Renderer renderer;      // Class responsible for drawing graphics
+    private Timer gameTimer;        //Game timer
+    protected float screen_width_pix;   //current screen width in pix
+    protected float screen_height_pix;  //screen height in pix
+    public Bitmap PlayerCircleBitmap;   //Image file for player object
+    PlayerCircle currentPlayer;         //Instance of player object
+    StagePiece stagePiece;              //Instance of obstacles
 
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setupActivity();
-        mainActivity = getContext();
         getScreenSizeInPixels();
     }
 
+    /**
+     * Just a setup class that creates everything that's needed instead of filling up the OnCreate method
+     */
     public void setupActivity(){
 
         Button startButton;
-        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE); //Låser telefonen i landskap
-
+        //Locks in landscape
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
         // remove titlebar
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
-
         setContentView(R.layout.start_screen);
-        ButterKnife.bind(this);
-        tv = (TextView) findViewById(R.id.tv);
         //Button for transition
         startButton = (Button) findViewById(R.id.startButton);
-
         startButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.i("TAG","YOU PRESSED BUTTON");
-                fade();
+                fadeFromStartToGameView();
             }
         });
-        imageView = (ImageView)findViewById(R.id.imageView);
         //get a hook to the sensor service
         sManager = (SensorManager) getSystemService(SENSOR_SERVICE);
         maxRange = sManager.getDefaultSensor(Sensor.TYPE_ORIENTATION).getMaximumRange();
-
-
         /**
          * Init the metrics like this so access density of screen
          */
@@ -127,26 +107,19 @@ public class MainActivity extends Activity implements SensorEventListener
         {
             return;
         }
-        //else it will output the Roll, Pitch and Yawn values
-        tv.setText("Orientation X (Roll) :"+ Float.toString(event.values[2]) +"\n"+
-                "Orientation Y (Pitch) :"+ Float.toString(event.values[1]) +"\n"+
-                "Orientation Z (Yaw) :"+ Float.toString(event.values[0]));
         valueX = event.values[2];
         valueY = event.values[1];
-        imageView.setX(300 - event.values[1]*4);
-        imageView.setY(300 + event.values[2]*4);
     }
 
     public float convertDpToPix(float dp){
         return TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP,dp,metrics);
     }
 
-    public void fade(){
-        linearLayout = (LinearLayoutCompat) findViewById(R.id.linearLayoutStartScreen);
-        animation1 = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fade);
+    public void fadeFromStartToGameView(){
+        LinearLayoutCompat linearLayout = (LinearLayoutCompat) findViewById(R.id.linearLayoutStartScreen);
+        Animation animation1 = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fade);
         animation2 = AnimationUtils.loadAnimation(getApplicationContext(),R.anim.fadein);
         linearLayout.startAnimation(animation1);
-
         animation1.setAnimationListener(new Animation.AnimationListener() {
             @Override
             public void onAnimationEnd(Animation arg0) {
